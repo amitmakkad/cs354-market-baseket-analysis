@@ -1,9 +1,9 @@
 import pandas as pd
-from mlxtend.frequent_patterns import apriori
+from mlxtend.frequent_patterns import fpgrowth
 from mlxtend.frequent_patterns import association_rules
 
 
-class Apriori:
+class Fpgrowth:
 
     def __init__(self) -> None:
         pass
@@ -20,7 +20,7 @@ class Apriori:
         basket_sets = basket.applymap(self.convert_into_binary)
         basket_sets.drop(columns=['POSTAGE'],inplace=True)
         
-        frequent_itemsets = apriori(basket_sets, min_support=sup, use_colnames=True)
+        frequent_itemsets = fpgrowth(basket_sets, min_support=sup, use_colnames=True)
 
         rules_mlxtend = association_rules(frequent_itemsets, metric="lift", min_threshold=0)
         rules_mlxtend[ (rules_mlxtend['lift'] >= lif) & (rules_mlxtend['confidence'] >= conf) ]

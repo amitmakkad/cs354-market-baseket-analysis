@@ -24,12 +24,12 @@ class Apriori:
 
         rules_mlxtend = association_rules(frequent_itemsets, metric="lift", min_threshold=0)
         rules_mlxtend[ (rules_mlxtend['lift'] >= lif) & (rules_mlxtend['confidence'] >= conf) ]
-        # print(rules_mlxtend.head())
         return rules_mlxtend
 
     def get_associate_rules(self, ecommerce_df, customer_clusters_kmeans):
 
         df = pd.merge(ecommerce_df, customer_clusters_kmeans, on='CustomerID',how='inner')
+        
         df['Description'] = df['Description'].str.strip()
 
         data0=df[df.Cluster==0]

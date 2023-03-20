@@ -65,14 +65,10 @@ def preprocess(ecommerce_df):
 
 def get_data(clustering_df):
 
-    amounts = list(clustering_df["Amount"])
-    frequencies = list(clustering_df["Frequency"])
-
     X = []
 
-    for a in amounts:
-        for f in frequencies:
-            X.append([a,f])
+    for idx, row in clustering_df.iterrows():
+        X.append([row["Amount"],row["Frequency"]])
     
     X = np.array(X)
     return X

@@ -24,7 +24,6 @@ class Fpgrowth:
 
         rules_mlxtend = association_rules(frequent_itemsets, metric="lift", min_threshold=0)
         rules_mlxtend[ (rules_mlxtend['lift'] >= lif) & (rules_mlxtend['confidence'] >= conf) ]
-        # print(rules_mlxtend.head())
         return rules_mlxtend
 
     def get_associate_rules(self, ecommerce_df, customer_clusters_kmeans):

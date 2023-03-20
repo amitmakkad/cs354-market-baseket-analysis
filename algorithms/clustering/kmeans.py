@@ -1,8 +1,9 @@
 import numpy as np
+from sklearn.cluster import KMeans as KMeans_Lib
 
 class KMeans:
 
-    def __init__(self, k=2, max_iters=100):
+    def __init__(self, k=5, max_iters=100):
         self.k = k
         self.max_iters = max_iters
         self.centroids = None
@@ -21,3 +22,8 @@ class KMeans:
         distances = np.sqrt(((X - self.centroids[:, np.newaxis])**2).sum(axis=2))
         labels = np.argmin(distances, axis=0)
         return labels
+    
+    def get_labels(self, X):
+        kmeans = KMeans_Lib(n_clusters = 6, init = 'k-means++', random_state = 42)
+        y_kmeans = kmeans.fit_predict(X)
+        return y_kmeans

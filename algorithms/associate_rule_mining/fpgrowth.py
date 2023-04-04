@@ -1,4 +1,5 @@
 import pandas as pd
+
 from mlxtend.frequent_patterns import fpgrowth
 from mlxtend.frequent_patterns import association_rules
 
@@ -18,7 +19,10 @@ class Fpgrowth:
         basket = pd.pivot_table(data=df,index='InvoiceNo',columns='Description',values='Quantity', aggfunc='sum',fill_value=0)
 
         basket_sets = basket.applymap(self.convert_into_binary)
-        basket_sets.drop(columns=['POSTAGE'],inplace=True)
+        try:
+            basket_sets.drop(columns=['POSTAGE'],inplace=True)
+        except:
+            pass
         
         frequent_itemsets = fpgrowth(basket_sets, min_support=sup, use_colnames=True)
 
@@ -35,10 +39,10 @@ class Fpgrowth:
         data1=df[df.Cluster==1]
         data2=df[df.Cluster==2]
         data3=df[df.Cluster==3]
-        data4=df[df.Cluster==4]
-        data5=df[df.Cluster==5]
 
-        data=[self.mba(data0,0.01,4,0.8),self.mba(data1,0.01,4,0.8)]
+        data=[self.mba(data0,0.01,4,0.8),self.mba(data1,0.01,4,0.8),self.mba(data2,0.01,4,0.8),self.mba(data3,0.01,4,0.8)]
+        
         result=pd.concat(data)
 
         return result
+    

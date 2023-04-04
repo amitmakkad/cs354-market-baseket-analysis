@@ -1,4 +1,5 @@
 import numpy as np
+from sklearn.cluster import DBSCAN as DBSCAN_Lib
 
 class DBSCAN:
     
@@ -45,3 +46,7 @@ class DBSCAN:
             if self.labels[j] == 0:
                 self.labels[j] = cluster
 
+    def get_labels(self, X):
+        dbscan = DBSCAN_Lib(eps=self.eps, min_samples=self.min_samples)
+        dbscan_labels = dbscan.fit_predict(X)
+        return dbscan_labels

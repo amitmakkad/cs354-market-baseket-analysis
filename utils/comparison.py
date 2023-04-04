@@ -12,7 +12,7 @@ def get_best_clusters(ecommerce_df, customer_clusters_kmeans, customer_clusters_
     
     associate_rules_kmeans = apriori_model.get_associate_rules(ecommerce_df, customer_clusters_kmeans)
     associate_rules_dbscan = apriori_model.get_associate_rules(ecommerce_df, customer_clusters_dbscan)
-    associate_rules_hierarchial = apriori_model.get_associate_rules(ecommerce_df, customer_clusters_kmeans)
+    associate_rules_hierarchial = apriori_model.get_associate_rules(ecommerce_df, customer_clusters_hierarchial)
 
     associate_rules_kmeans.rename(columns={"lift": "lift1"}, inplace=True)
     associate_rules_kmeans.drop(['leverage', 'conviction','antecedent support','consequent support','support','confidence'], axis=1, inplace=True)

@@ -1,4 +1,5 @@
 import numpy as np
+from sklearn.cluster import AgglomerativeClustering
 
 class HierarchicalClustering:
     def __init__(self, n_clusters):
@@ -41,4 +42,9 @@ class HierarchicalClustering:
             y_pred[i] = self.clusters[np.argmin(dist)]
         
         return y_pred
+    
+    def get_labels(self, X):
+        hierarchial = AgglomerativeClustering(n_clusters=self.n_clusters, affinity = 'euclidean', linkage = 'ward')
+        hierarchical_labels = hierarchial.fit_predict(X)
+        return hierarchical_labels
 

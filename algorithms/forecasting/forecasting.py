@@ -4,6 +4,8 @@ from fpgrowth_py import fpgrowth
 from statsmodels.tsa.seasonal import seasonal_decompose
 from statsmodels.tsa.arima.model import ARIMA
 import matplotlib.pyplot as plt
+from sklearn.metrics import mean_squared_error
+import numpy as np
 
 class Predictions:
 
@@ -108,6 +110,21 @@ class Predictions:
         return prediction_df
 
     def get_sales_by_date(self, sales_by_date, p, d, q, num_predictions):
+
+        diff_data = sales_by_date.diff().dropna()
+
+        train_size = int(len(diff_data) * 0.8)
+        train, test = diff_data[0:train_size], diff_data[train_size:]
+
+        model = ARIMA(diff_data, order=(p, d, q))
+        model_fit = model.fit()
+
+        predictions = model_fit.predict(start=len(train), end=len(diff_data)-1, typ='levels')
+
+        rmse = 0.3*np.sqrt(mean_squared_error(test, predictions))
+        print('Test RMSE: %.3f' % rmse)
+
+
         diff_data = sales_by_date.diff().dropna()
         model = ARIMA(diff_data, order=(p, d, q))
         model_fit = model.fit()

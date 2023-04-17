@@ -25,17 +25,6 @@ class Predictions:
 
 
     def compute_next_best_product(self, basket_el):
-        """
-        parameter : basket_el = list of consumer basket elements
-        return : next_pdt, proba = next product to recommend, buying probability. Or (0,0) if no product is found. 
-                
-        
-        Description : from the basket of a user, returns the product to recommend if it was not found 
-        in the list of associations of the table associated with the FP Growth model. 
-        To do this, we search in the table of associations for the product to recommend from each 
-        individual product in the consumer's basket. 
-        
-        """
 
         association = self.association
         
@@ -50,16 +39,6 @@ class Predictions:
         return(0,0) # return (0,0) if no product was found. 
     
     def find_next_product(self, basket):
-        """
-        Parameter : basket = consumer basket dataframe
-        Return : list_next_pdt, list_proba = list of next elements to recommend and the buying probabilities associated.
-        
-        description : Main function that uses the one above. For each client in the dataset we look for a corresponding 
-        association in the Fp Growth model table. If no association is found, we call the compute_next_best_product 
-        function which searches for individual product associations.
-        If no individual ssociations are found, the function returns (0,0).
-        
-        """
 
         association = self.association
 
@@ -128,9 +107,9 @@ class Predictions:
         prediction_df = prediction_df.reindex(columns=['Customer basket','Recommended Product','Product description','Probability','Price estimation'])
         return prediction_df
 
-    def get_sales_by_date(self, sales_by_date, p, q, d, num_predictions):
+    def get_sales_by_date(self, sales_by_date, p, d, q, num_predictions):
         diff_data = sales_by_date.diff().dropna()
-        model = ARIMA(diff_data, order=(p, q, d))
+        model = ARIMA(diff_data, order=(p, d, q))
         model_fit = model.fit()
         last_date = sales_by_date.index[-1]
         future_dates = pd.date_range(start=last_date, periods=num_predictions, freq='D')

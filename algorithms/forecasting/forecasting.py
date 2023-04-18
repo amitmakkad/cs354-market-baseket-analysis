@@ -121,7 +121,7 @@ class Predictions:
 
         predictions = model_fit.predict(start=len(train), end=len(diff_data)-1, typ='levels')
 
-        rmse = 0.3*np.sqrt(mean_squared_error(test, predictions))
+        rmse = np.sqrt(mean_squared_error(test, predictions))
         print('Test RMSE: %.3f' % rmse)
 
 

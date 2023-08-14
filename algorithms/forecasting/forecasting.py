@@ -17,7 +17,7 @@ class Predictions:
     def get_associate_ruls(self, prediction_df):
         freqItemSet, rules = fpgrowth((prediction_df['StockCode'].values), minSupRatio=0.005, minConf=0.3)
         self.association = pd.DataFrame(rules,columns =['basket','next_product','proba']) 
-        selfassociation = self.association.sort_values(by='proba',ascending=False)
+        self.association = self.association.sort_values(by='proba',ascending=False)
 
         print('Number of rules generated : ', len(rules))
         print('Dimensions of the association table are : ', self.association.shape)
